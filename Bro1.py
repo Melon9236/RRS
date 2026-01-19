@@ -2,7 +2,7 @@ from flask import Flask, url_for
 
 app = Flask(__name__)
 
-# Home page with semi-transparent background image
+# Home page with background image
 @app.route("/")
 def home():
     return f"""
@@ -37,7 +37,7 @@ def home():
 
                 /* Header */
                 h1 {{
-                    background-color: rgba(224,224,224,0.8); /* light gray, semi-transparent */
+                    background-color: rgba(224,224,224,0.8); /* semi-transparent light gray */
                     color: maroon;
                     padding: 20px;
                     margin: 0;
@@ -48,9 +48,10 @@ def home():
                 /* Subheader / category buttons container */
                 .button-container {{
                     margin-top: 20px;
-                    background-color: rgba(255,215,0,0.8); /* gold/yellow, semi-transparent */
+                    background-color: rgba(224,224,224,0.8); /* same as header */
                     padding: 15px 0;
                     border: 3px solid maroon; /* maroon border */
+                    border-radius: 0;
                 }}
 
                 /* Buttons inside subheader */
@@ -58,26 +59,20 @@ def home():
                     display: inline-block;
                     margin: 10px;
                     padding: 12px 25px;
-                    background-color: yellow; /* button background */
-                    color: gray;              /* button text */
+                    background-color: #FFD700; /* bright gold, solid */
+                    color: maroon;             /* maroon text */
                     font-size: 18px;
-                    border: none;
+                    border: 3px solid maroon;  /* maroon border for each button */
                     border-radius: 8px;
                     cursor: pointer;
                     text-decoration: none;
                     font-family: 'Trajan Pro', serif;
                     transition: all 0.3s ease;
+                    font-weight: bold;
                 }}
 
                 .btn:hover {{
-                    background-color: #ffd700; /* darker yellow on hover */
-                    font-weight: bold;
-                }}
-
-                /* Make the text of links in subheader maroon */
-                .button-container a {{
-                    color: maroon;
-                    font-weight: bold;
+                    background-color: #FFC300; /* slightly brighter gold on hover */
                 }}
             </style>
         </head>
@@ -97,7 +92,7 @@ def home():
 # Function to create room pages with color-coded boxes
 def rooms_page(title, description, color):
     boxes_html = ''.join([
-        f'<div class="box" style="border-color:{color};">{i+1}</div>'
+        f'<div class="box" style="border-color:maroon;">{i+1}</div>'
         for i in range(8)
     ])
     return f"""
@@ -112,8 +107,21 @@ def rooms_page(title, description, color):
                     text-align: center;
                     background-color: #f5f5f5;
                 }}
-                h2 {{ color: maroon; margin-top: 20px; }}
-                .subtext {{ font-weight: bold; color: maroon; font-size: 20px; margin: 10px 0 30px 0; }}
+                h2 {{
+                    color: maroon;
+                    margin-top: 20px;
+                    background-color: rgba(224,224,224,0.8);
+                    border: 3px solid maroon;
+                    display: inline-block;
+                    padding: 10px 20px;
+                    border-radius: 8px;
+                }}
+                .subtext {{
+                    font-weight: bold;
+                    color: maroon;
+                    font-size: 20px;
+                    margin: 10px 0 30px 0;
+                }}
                 .boxes {{
                     display: flex;
                     flex-wrap: wrap;
@@ -124,7 +132,7 @@ def rooms_page(title, description, color):
                 .box {{
                     width: 120px;
                     height: 120px;
-                    border: 3px solid {color};
+                    border: 3px solid maroon;
                     border-radius: 15px;
                     display: flex;
                     align-items: center;
@@ -163,7 +171,7 @@ def occupied():
 def all_rooms():
     colors = ["green"]*3 + ["orange"]*3 + ["red"]*2
     boxes_html = ''.join([
-        f'<div class="box" style="border-color:{c};">{i+1}</div>'
+        f'<div class="box" style="border-color:maroon;">{i+1}</div>'
         for i, c in enumerate(colors)
     ])
     return f"""
@@ -178,13 +186,40 @@ def all_rooms():
                     text-align: center;
                     background-color: #f5f5f5;
                 }}
-                h2 {{ color: maroon; margin-top: 20px; }}
-                .subtext {{ font-weight: bold; color: maroon; font-size: 20px; margin: 10px 0 30px 0; }}
-                .boxes {{ display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 30px; }}
+                h2 {{
+                    color: maroon;
+                    margin-top: 20px;
+                    background-color: rgba(224,224,224,0.8);
+                    border: 3px solid maroon;
+                    display: inline-block;
+                    padding: 10px 20px;
+                    border-radius: 8px;
+                }}
+                .subtext {{
+                    font-weight: bold;
+                    color: maroon;
+                    font-size: 20px;
+                    margin: 10px 0 30px 0;
+                }}
+                .boxes {{
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    gap: 20px;
+                    margin-bottom: 30px;
+                }}
                 .box {{
-                    width: 120px; height: 120px; border: 3px solid; border-radius: 15px;
-                    display: flex; align-items: center; justify-content: center;
-                    font-family: 'Trajan Pro', serif; font-size: 16px; color: maroon; background-color: #ffffff;
+                    width: 120px;
+                    height: 120px;
+                    border: 3px solid maroon;
+                    border-radius: 15px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-family: 'Trajan Pro', serif;
+                    font-size: 16px;
+                    color: maroon;
+                    background-color: #ffffff;
                 }}
             </style>
         </head>
@@ -200,3 +235,4 @@ def all_rooms():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
